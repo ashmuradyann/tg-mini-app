@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import WebApp from "@twa-dev/sdk";
-import sha256 from "crypto-js/sha256";
-import { useInitData } from "@vkruglikov/react-telegram-web-app";
 import clsx from "clsx";
 
 import styles from "./profile.module.scss";
