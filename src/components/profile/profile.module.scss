@@ -1,0 +1,34 @@
+.profile {
+  width: 100%;
+  height: 100vh;
+  padding: 20px;
+  justify-content: flex-start !important;
+
+  img {
+    width: 150px;
+    border-radius: 75px;
+  }
+
+  .user__data {
+    margin: 15px auto 0 auto;
+
+    p {
+      width: fit-content;
+      font-size: 24px;
+    }
+
+    img {
+      width: 25px;
+      margin-left: 10px;
+    }
+  }
+
+  .share__with_friends {
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 10px 20px;
+    background-color: gray;
+    margin-top: 15px;
+    color: #fff;
+  }
+}
