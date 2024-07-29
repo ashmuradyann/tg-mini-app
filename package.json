@@ -13,9 +13,7 @@
   },
   "dependencies": {
     "@twa-dev/sdk": "^7.0.0",
-    "@vkruglikov/react-telegram-web-app": "^2.1.9",
     "clsx": "^2.1.1",
-    "crypto-js": "^4.2.0",
     "fs": "^0.0.1-security",
     "gh-pages": "^6.1.1",
     "react": "^18.3.1",
@@ -23,7 +21,6 @@
     "sass": "^1.77.8"
   },
   "devDependencies": {
-    "@types/crypto-js": "^4.2.2",
     "@types/node": "^22.0.0",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
