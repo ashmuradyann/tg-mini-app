@@ -6,6 +6,7 @@ import styles from "./profile.module.scss";
 
 const Profile = () => {
   const [userData, setUserData] = useState<any>({});
+  const [imageSrc, setImageSrc] = useState<any>(null);
 
   useEffect(() => {
     setUserData(WebApp?.initDataUnsafe);
@@ -15,6 +16,20 @@ const Profile = () => {
     WebApp.openTelegramLink(
       "https://t.me/share/url?url=https://t.me/muradyan7777_bot/muradyan_app&text=Поделитесь с друзьями и получите БОНУС!!!"
     );
+  };
+
+  const handleFileChange = (event: any) => {
+    const file = event.target.files[0];
+
+    if (file && file.type === "image/png") {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImageSrc(reader.result);
+      };
+      reader.readAsDataURL(file);
+    } else {
+      alert("Please select a valid PNG file.");
+    }
   };
 
   return (
@@ -37,6 +52,14 @@ const Profile = () => {
       <button className={styles.share__with_friends} onClick={openShareFriends}>
         Поделиться с друзьями
       </button>
+      <input type="file" accept=".png" onChange={handleFileChange} />
+      {imageSrc && (
+        <img
+          src={imageSrc}
+          alt="Selected PNG"
+          style={{ marginTop: "20px", maxWidth: "100%" }}
+        />
+      )}
     </div>
   );
 };
