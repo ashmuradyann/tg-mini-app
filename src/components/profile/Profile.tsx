@@ -50,9 +50,9 @@ const Profile = () => {
         )}
       </div>
       <button className={styles.share__with_friends} onClick={openShareFriends}>
-        Поделиться с друзьями
+        Поделиться с друзьямиaa
       </button>
-      <input type="file" onChange={handleFileChange} />
+      <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" onChange={handleFileChange} />
       {imageSrc && (
         <img
           src={imageSrc}
