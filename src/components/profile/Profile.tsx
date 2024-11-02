@@ -21,7 +21,7 @@ const Profile = () => {
   const handleFileChange = (event: any) => {
     const file = event.target.files[0];
 
-    if (file && file.type === "image/png") {
+    if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
         setImageSrc(reader.result);
@@ -52,7 +52,7 @@ const Profile = () => {
       <button className={styles.share__with_friends} onClick={openShareFriends}>
         Поделиться с друзьями
       </button>
-      <input type="file" accept=".png" onChange={handleFileChange} />
+      <input type="file" onChange={handleFileChange} />
       {imageSrc && (
         <img
           src={imageSrc}
