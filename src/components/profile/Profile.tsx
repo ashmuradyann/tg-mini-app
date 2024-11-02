@@ -4,6 +4,7 @@ import clsx from "clsx";
 
 import styles from "./profile.module.scss";
 import { BottomSheet } from "react-spring-bottom-sheet";
+import "react-spring-bottom-sheet/dist/style.css";
 
 const Profile = () => {
   const [userData, setUserData] = useState<any>({});
