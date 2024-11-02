@@ -3,6 +3,7 @@ import WebApp from "@twa-dev/sdk";
 import clsx from "clsx";
 
 import styles from "./profile.module.scss";
+import { BottomSheet } from "react-spring-bottom-sheet";
 
 const Profile = () => {
   const [userData, setUserData] = useState<any>({});
@@ -52,14 +53,23 @@ const Profile = () => {
       <button className={styles.share__with_friends} onClick={openShareFriends}>
         Поделиться с друзьямиaa
       </button>
-      <input type="file" accept="image/jpg, image/jpeg, image/png, image/webp" onChange={handleFileChange} />
-      {imageSrc && (
-        <img
-          src={imageSrc}
-          alt="Selected PNG"
-          style={{ marginTop: "20px", maxWidth: "100%" }}
+      <BottomSheet
+        open={true}
+        snapPoints={({ minHeight }) => [minHeight + 48, screen.height]}
+      >
+        <input
+          type="file"
+          accept="image/jpg, image/jpeg, image/png, image/webp"
+          onChange={handleFileChange}
         />
-      )}
+        {imageSrc && (
+          <img
+            src={imageSrc}
+            alt="Selected PNG"
+            style={{ marginTop: "20px", maxWidth: "100%" }}
+          />
+        )}
+      </BottomSheet>
     </div>
   );
 };
