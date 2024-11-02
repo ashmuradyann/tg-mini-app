@@ -1,77 +1,80 @@
-import { useEffect, useState } from "react";
-import WebApp from "@twa-dev/sdk";
+import { useEffect, useRef, useState } from "react";
 import clsx from "clsx";
 
 import styles from "./profile.module.scss";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
+import { useDropzone } from "react-dropzone";
 
 const Profile = () => {
-  const [userData, setUserData] = useState<any>({});
-  const [imageSrc, setImageSrc] = useState<any>(null);
+  const hiddenInputRef: any = useRef(null);
 
-  useEffect(() => {
-    setUserData(WebApp?.initDataUnsafe);
-  }, []);
+  const [uploadedImages, setUploadedImages] = useState([]);
 
-  const openShareFriends = () => {
-    WebApp.openTelegramLink(
-      "https://t.me/share/url?url=https://t.me/muradyan7777_bot/muradyan_app&text=Поделитесь с друзьями и получите БОНУС!!!"
-    );
-  };
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop: (incomingFiles) => {
+      if (incomingFiles.length > 10) {
+        alert("Максимальное количество картинок которые можете загрузить: 10");
+        return;
+      }
+      getImagesFromInput(incomingFiles);
+    },
+  });
 
-  const handleFileChange = (event: any) => {
-    const file = event.target.files[0];
-
-    if (file) {
+  const getImagesFromInput = (fileArray: any[]) => {
+    fileArray.forEach((file, index) => {
       const reader = new FileReader();
-      reader.onloadend = () => {
-        setImageSrc(reader.result);
+      reader.onload = (e: any) => {
+        setUploadedImages((prev: any): any => [
+          ...prev,
+          {
+            imageId: index,
+            imageSrc: e.target.result,
+            imageName: file.name,
+            imageSize: 55,
+            imagePrice: 55,
+          },
+        ]);
       };
       reader.readAsDataURL(file);
-    } else {
-      alert("Please select a valid PNG file.");
-    }
+    });
+  };
+
+  const onButtonClick = () => {
+    hiddenInputRef.current.click();
   };
 
   return (
-    <div className={clsx(styles.profile, "flex-column")}>
-      <img
-        src={`https://t.me/i/userpic/320/${userData?.user?.username}.jpg`}
-        alt=""
-      />
-      {/* <p>{userData?.user?.username}</p> */}
-      <div className={clsx(styles.user__data, "flex-center")}>
-        <p>{userData?.user?.username}</p>
-        {userData?.user?.is_premium && (
-          <img
-            className={styles.premium__img}
-            src="https://t4.ftcdn.net/jpg/05/33/75/35/360_F_533753588_1krxEE0SDZWl0ZKd9cUzCL6HaTRo9UxK.jpg"
-            alt="premium"
-          />
-        )}
-      </div>
-      <button className={styles.share__with_friends} onClick={openShareFriends}>
-        Поделиться с друзьямиaa
-      </button>
+    <section className={styles.popup__content}>
       <BottomSheet
         open={true}
         snapPoints={({ minHeight }) => [minHeight + 48, screen.height]}
       >
-        <input
-          type="file"
-          accept="image/jpg, image/jpeg, image/png, image/webp"
-          onChange={handleFileChange}
-        />
-        {imageSrc && (
-          <img
-            src={imageSrc}
-            alt="Selected PNG"
-            style={{ marginTop: "20px", maxWidth: "100%" }}
+        <div
+          {...getRootProps({ className: "dropzone" })}
+          className={clsx(
+            styles.uploader,
+            isDragActive && styles.uploader__active
+          )}
+        >
+          <div>Перетащите сюда файлы</div>
+          <p>Или</p>
+          <button onClick={onButtonClick}>Выбрать с устройства</button>
+          <input
+            type="file"
+            onChange={(e: any) =>
+              getImagesFromInput(Array.from(e.target.files))
+            }
+            ref={hiddenInputRef}
+            multiple
+            accept="image/jpg, image/jpeg, image/png, image/webp"
           />
-        )}
+        </div>
+        {/* {uploadedImages?.map((image: any) => (
+          <img src={image.imageSrc} />
+        ))} */}
       </BottomSheet>
-    </div>
+    </section>
   );
 };
 
